@@ -11,7 +11,7 @@ import java.util.TreeSet;
 
 @RestController
 @RequestMapping("/api/benchmark")
-public class DemoController {
+public class BenchmarkController {
 
     @GetMapping("/ineficiente")
     public String codigoIneficiente(@RequestParam(defaultValue = "3000") int n) {
