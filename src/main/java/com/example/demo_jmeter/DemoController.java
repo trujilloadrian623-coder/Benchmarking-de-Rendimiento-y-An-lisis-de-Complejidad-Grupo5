@@ -10,17 +10,18 @@ import java.util.Collections;
 import java.util.TreeSet;
 
 @RestController
-@RequestMapping("/api/demo")
+@RequestMapping("/api/benchmark")
 public class DemoController {
 
     @GetMapping("/ineficiente")
     public String codigoIneficiente(@RequestParam(defaultValue = "3000") int n) {
         long inicio = System.currentTimeMillis();
         
-        ArrayList<Integer> lista = new ArrayList<>();
+        long resultado = 0; // evitar overflow
         for (int i = n; i > 0; i--) {
-            lista.add(i);
-            Collections.sort(lista); 
+            for (int j = n; j > 0; j--) {
+                resultado += i * j;
+            }
         }
         
         long fin = System.currentTimeMillis();
@@ -31,12 +32,13 @@ public class DemoController {
     public String codigoOptimizado(@RequestParam(defaultValue = "3000") int n) {
         long inicio = System.currentTimeMillis();
         
-        TreeSet<Integer> setOrdenado = new TreeSet<>();
-        for (int i = n; i > 0; i--) {
-            setOrdenado.add(i); 
+        long sumaGauss = 0;
+        for (int i = 1; i <= n; i++) {
+            sumaGauss += i;
         }
+        long resultado = sumaGauss * sumaGauss; // Equivalente matemático exacto a los bucles anidados O(n)
         
         long fin = System.currentTimeMillis();
-        return "Optimizado completado para n=" + n + " en " + (fin - inicio) + " ms.";
+        return "Optimizado O(n) completado para n=" + n + " en " + (fin - inicio) + " ms. Resultado: " + resultado;
     }
 }
